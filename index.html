@@ -370,6 +370,115 @@
   footer a { color: var(--ink-2); text-decoration: none; }
   footer a:hover { color: var(--ink); }
 
+  /* ---------- Мини-игра: кодовый замок ---------- */
+  .raid { display: grid; gap: 20px; }
+  .raid-stage {
+    position: relative; overflow: hidden; border-radius: 16px; border: 1px solid var(--line);
+    background:
+      linear-gradient(color-mix(in srgb, var(--line) 60%, transparent) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, color-mix(in srgb, var(--line) 60%, transparent) 1px, transparent 1px) 0 0 / 32px 32px,
+      var(--surface);
+    display: grid; place-items: center; padding: 56px 16px 52px; perspective: 900px; min-height: 500px;
+  }
+  .raid-stage::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px;
+    background: repeating-linear-gradient(-45deg, #E8B931 0 12px, #16130F 12px 24px);
+  }
+  .raid-stage::after { content: ""; position: absolute; inset: 0; background: rgba(255, 214, 90, .22); opacity: 0; pointer-events: none; }
+  .raid-stage.zap::after { animation: zap .45s linear; }
+  @keyframes zap { 0% { opacity: 1; } 30% { opacity: 0; } 45% { opacity: .8; } 100% { opacity: 0; } }
+  .stage-hint { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font: 500 12px/1 var(--mono); color: var(--ink-3); }
+  @media (hover: none) { .stage-hint { display: none; } }
+
+  .lock-tilt { transition: transform .25s var(--ease); transform-style: preserve-3d; }
+  .lock {
+    position: relative; width: 276px; padding: 26px 24px 28px; border-radius: 20px; color: #D9D3C9;
+    background: linear-gradient(160deg, #47443F 0%, #2A2826 55%, #1E1C1B 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 -3px 0 rgba(0,0,0,.45), 0 2px 0 #121110, 0 40px 60px -30px rgba(22,19,15,.7);
+  }
+  .lock::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px);
+  }
+  .lock::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(circle at var(--gx, 30%) var(--gy, 0%), rgba(255,255,255,.10), transparent 55%);
+  }
+  .screw { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #8D8780, #3B3936 70%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.5); }
+  .screw::after { content: ""; position: absolute; left: 2px; right: 2px; top: 50%; height: 1.5px; margin-top: -.75px; background: #232120; transform: rotate(var(--sr, 35deg)); }
+  .s1 { top: 10px; left: 10px; } .s2 { top: 10px; right: 10px; --sr: -20deg; }
+  .s3 { bottom: 10px; left: 10px; --sr: 80deg; } .s4 { bottom: 10px; right: 10px; --sr: 10deg; }
+  .lock-top { display: flex; align-items: center; justify-content: space-between; margin: 0 6px 14px; font: 500 10px/1 var(--mono); letter-spacing: .14em; color: #8E877E; }
+  .led { width: 10px; height: 10px; border-radius: 50%; background: #E0412C; box-shadow: 0 0 0 2px rgba(0,0,0,.35), 0 0 10px 2px rgba(224,65,44,.65); animation: led 2.4s ease-in-out infinite; }
+  @keyframes led { 50% { box-shadow: 0 0 0 2px rgba(0,0,0,.35), 0 0 4px 0 rgba(224,65,44,.35); } }
+  .lock.open .led { background: #4BD06A; box-shadow: 0 0 0 2px rgba(0,0,0,.35), 0 0 12px 3px rgba(75,208,106,.7); animation: none; }
+  .lock.dead .led { background: #3A2A28; box-shadow: 0 0 0 2px rgba(0,0,0,.35); animation: none; }
+  .lock.shock .led { animation: ledzap .45s linear; }
+  @keyframes ledzap { 0%, 30%, 60% { background: #FFE27A; box-shadow: 0 0 0 2px rgba(0,0,0,.35), 0 0 16px 5px rgba(255,226,122,.8); } 15%, 45%, 100% { background: #E0412C; } }
+
+  .lcd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; background: #170F0A; border-radius: 10px; padding: 12px 12px 10px; box-shadow: inset 0 2px 6px rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,.06); }
+  .lcd .d { position: relative; height: 48px; display: grid; place-items: center; font: 500 32px/1 var(--mono); color: #FFB15C; text-shadow: 0 0 10px rgba(255,140,50,.55); border-bottom: 2px solid rgba(255,177,92,.18); }
+  .lcd .d.cur::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -2px; height: 2px; background: #FFB15C; box-shadow: 0 0 8px rgba(255,140,50,.8); animation: blink 1s steps(1) infinite; }
+  .lock.open .lcd .d { color: #7CE38B; text-shadow: 0 0 10px rgba(80,220,110,.6); border-bottom-color: rgba(124,227,139,.3); }
+  .lock.dead .lcd .d { color: #FF6B5B; text-shadow: 0 0 10px rgba(255,80,60,.6); border-bottom-color: rgba(255,107,91,.3); }
+  .lcd.nope { animation: nope .3s; }
+  @keyframes nope { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .lock-msg { margin: 10px 2px 16px; min-height: 14px; font: 500 10.5px/1.3 var(--mono); letter-spacing: .12em; color: #B5AEA4; text-align: center; }
+
+  .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .key {
+    height: 52px; border: 0; border-radius: 10px; cursor: pointer; font: 500 20px/1 var(--mono); color: #EDE7DD;
+    background: linear-gradient(180deg, #4D4A46, #353330);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 3px 0 #151413, 0 4px 8px rgba(0,0,0,.3);
+    transition: transform .08s, box-shadow .08s, background .2s;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
+  .key:hover { background: linear-gradient(180deg, #57534F, #3B3936); }
+  .key:active, .key.down { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 0 #151413, 0 1px 2px rgba(0,0,0,.3); }
+  .key.fn { font-size: 18px; color: #B5AEA4; }
+  .key.ok { font-size: 15px; letter-spacing: .06em; background: linear-gradient(180deg, #D9502F, #B23A22); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 3px 0 #6E2113, 0 4px 8px rgba(0,0,0,.3); }
+  .key.ok:hover { background: linear-gradient(180deg, #E35C3B, #BF4129); }
+  .key.ok:active, .key.ok.down { box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 0 0 #6E2113; }
+  .key:focus-visible { outline: 2px solid #FFB15C; outline-offset: 2px; }
+
+  .spark { position: absolute; left: -14px; top: -14px; width: calc(100% + 28px); height: calc(100% + 28px); pointer-events: none; opacity: 0; overflow: visible; }
+  .spark path { fill: none; stroke: #FFE27A; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 4px rgba(255,226,122,.9)); }
+  .lock.shock { animation: shake .42s cubic-bezier(.36,.07,.19,.97); }
+  .lock.shock .spark { animation: spark .42s linear; }
+  @keyframes shake { 10%, 90% { transform: translate(-1px, 0); } 20%, 80% { transform: translate(3px, -1px); } 30%, 50%, 70% { transform: translate(-5px, 1px); } 40%, 60% { transform: translate(5px, 0); } }
+  @keyframes spark { 0% { opacity: 1; } 20% { opacity: 0; } 35% { opacity: 1; transform: scaleX(-1); } 55% { opacity: 0; } 70% { opacity: .8; transform: none; } 100% { opacity: 0; } }
+  .scrap { position: absolute; width: 8px; height: 8px; border-radius: 1px; pointer-events: none; z-index: 2; animation: fly 1.1s cubic-bezier(.15,.6,.3,1) forwards; }
+  @keyframes fly { 0% { transform: translate(-50%, -50%) rotate(0) scale(1); opacity: 1; } 100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy) + 60px)) rotate(var(--r)) scale(.6); opacity: 0; } }
+
+  .raid-panel { display: flex; flex-direction: column; gap: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px 20px; }
+  .hp-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; color: var(--ink-2); margin-bottom: 8px; }
+  .hp-top b { font: 600 22px/1 var(--mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+  .hp-bar { height: 10px; border-radius: 5px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+  .hp-bar i { display: block; height: 100%; width: 100%; background: #5BBF7A; border-radius: 5px; transition: width .5s var(--ease), background-color .3s; }
+  .hp-bar.low i { background: var(--accent); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .peg { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; }
+  .peg.bull { background: var(--accent); }
+  .peg.cow { box-shadow: inset 0 0 0 2px var(--accent); }
+  .peg.miss { background: var(--line-strong); transform: scale(.45); }
+  .tries { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-template-rows: repeat(5, auto); grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .tries li { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 6px; height: 38px; border-bottom: 1px solid var(--line); font: 500 13px/1 var(--mono); color: var(--ink-3); }
+  .tries li.used { color: var(--ink); }
+  .tries .ti { font-size: 10px; color: var(--ink-3); }
+  .tries .tc { letter-spacing: .14em; }
+  .tries .tp { display: flex; gap: 3px; }
+  .tries .tp .peg { width: 9px; height: 9px; }
+  .tries li.new { animation: rowin .6s var(--ease); }
+  @keyframes rowin { from { background: var(--accent-soft); } }
+  .raid-result { border-left: 3px solid var(--accent); padding: 2px 0 2px 16px; }
+  .raid-result h3 { font-size: 21px; line-height: 1.25; margin-bottom: 6px; }
+  .raid-result p { color: var(--ink-2); font-size: 16px; margin-bottom: 16px; }
+  .raid-result .row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .raid-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--ink-3); padding-top: 14px; border-top: 1px solid var(--line); }
+  .sound-btn { background: none; border: 1px solid var(--line-strong); color: var(--ink-2); border-radius: 6px; min-height: 40px; padding: 0 12px; font: 500 13px/1 var(--font); cursor: pointer; }
+  .sound-btn:hover { color: var(--ink); border-color: var(--ink); }
+
   /* Появление при прокрутке */
   .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
   .js .reveal.in { opacity: 1; transform: none; }
@@ -399,6 +508,13 @@
     .sec-head .sec-num { grid-column: 1 / -1; }
     section.block { padding: 120px 0; }
     .safe { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .raid { grid-template-columns: 1.15fr 1fr; gap: 24px; align-items: stretch; }
+    .raid-stage { min-height: 600px; }
+    .lock { width: 316px; padding: 30px 28px 32px; }
+    .key { height: 58px; font-size: 22px; }
+    .lcd .d { height: 54px; font-size: 36px; }
+    .raid-panel { padding: 28px; }
+    .tries li { font-size: 14px; }
     .safe .sec-head { grid-template-columns: 1fr; margin-bottom: 0; }
     .premium { padding: 72px 64px; }
     .prem-grid { grid-template-columns: repeat(4, 1fr); column-gap: 28px; border-top: 0; }
@@ -433,6 +549,7 @@
     <nav class="nav" aria-label="Разделы">
       <a href="#features">Возможности</a>
       <a href="#how">Как работает</a>
+      <a href="#raid">Мини-игра</a>
       <a href="#premium">Премиум</a>
       <a href="#faq">Вопросы</a>
     </nav>
@@ -567,11 +684,80 @@
     </div>
   </section>
 
+  <!-- ===== Мини-игра: рейд кодового замка ===== -->
+  <section class="block" id="raid" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">03 — Мини-игра</span>
+        <h2>Перерыв на рейд</h2>
+        <p>Угадайте код замка из четырёх разных цифр. После каждой попытки замок подсказывает, сколько цифр вы угадали. За ошибку бьёт током — здоровья хватит на 10 попыток.</p>
+      </div>
+      <div class="raid reveal">
+        <div class="raid-stage" id="raidStage">
+          <div class="lock-tilt" id="lockTilt">
+            <div class="lock" id="lock" role="group" aria-label="Кодовый замок">
+              <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
+              <svg class="spark" viewBox="0 0 300 440" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M6 70 L38 96 L20 118 L58 156 L42 176 L80 210"/>
+                <path d="M294 260 L262 238 L278 212 L242 186 L258 164 L224 134"/>
+                <path d="M118 434 L140 402 L126 386 L160 360"/>
+              </svg>
+              <div class="lock-top"><span class="led" id="led"></span><span>КОДОВЫЙ ЗАМОК</span><span>№0451</span></div>
+              <div class="lcd" id="lcd" aria-hidden="true"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+              <p class="lock-msg" id="lockMsg" role="status" aria-live="polite">ВВЕДИТЕ КОД</p>
+              <div class="keys">
+                <button class="key" type="button" data-k="1">1</button>
+                <button class="key" type="button" data-k="2">2</button>
+                <button class="key" type="button" data-k="3">3</button>
+                <button class="key" type="button" data-k="4">4</button>
+                <button class="key" type="button" data-k="5">5</button>
+                <button class="key" type="button" data-k="6">6</button>
+                <button class="key" type="button" data-k="7">7</button>
+                <button class="key" type="button" data-k="8">8</button>
+                <button class="key" type="button" data-k="9">9</button>
+                <button class="key fn" type="button" data-k="C" aria-label="Стереть цифру">⌫</button>
+                <button class="key" type="button" data-k="0">0</button>
+                <button class="key ok" type="button" data-k="OK" aria-label="Проверить код">OK</button>
+              </div>
+            </div>
+          </div>
+          <p class="stage-hint">можно вводить с клавиатуры: цифры, Backspace, Enter</p>
+        </div>
+
+        <div class="raid-panel">
+          <div class="hp">
+            <div class="hp-top"><span>Здоровье</span><b id="hpNum">100</b></div>
+            <div class="hp-bar" id="hpWrap"><i id="hpBar"></i></div>
+          </div>
+          <div class="legend">
+            <span><i class="peg bull"></i>цифра на своём месте</span>
+            <span><i class="peg cow"></i>цифра есть, но не там</span>
+          </div>
+          <div class="raid-result" id="raidResult" hidden>
+            <h3 id="resTitle"></h3>
+            <p id="resText"></p>
+            <div class="row">
+              <a class="btn btn-primary btn-sm" href="https://discord.com/oauth2/authorize?client_id=1571625635384918169&amp;scope=bot%20applications.commands&amp;permissions=117792" target="_blank" rel="noopener">
+                <svg aria-hidden="true"><use href="#i-discord"/></svg>Добавить бота
+              </a>
+              <button class="btn btn-ghost btn-sm" type="button" id="raidAgain">Ещё рейд</button>
+            </div>
+          </div>
+          <ol class="tries" id="tries" aria-label="Попытки"></ol>
+          <div class="raid-foot">
+            <span id="raidStats"></span>
+            <button class="sound-btn" type="button" id="soundBtn" aria-pressed="true">Звук: вкл</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== Безопасность ===== -->
   <section class="block" style="padding-top:0">
     <div class="wrap safe">
       <div class="sec-head reveal">
-        <span class="sec-num">03 — Безопасность</span>
+        <span class="sec-num">04 — Безопасность</span>
         <h2>Бот смотрит, но ничего не трогает</h2>
         <p>Анализ только читает данные сервера. Ваши настройки остаются как были.</p>
       </div>
@@ -597,7 +783,7 @@
     <div class="wrap">
       <div class="premium reveal">
         <div class="sec-head">
-          <span class="sec-num">04 — Премиум</span>
+          <span class="sec-num">05 — Премиум</span>
           <h2>Для кланов, которые хотят расти дальше</h2>
           <p>Бот следит за сервером сам и подсказывает, когда что-то идёт не так.</p>
         </div>
@@ -623,7 +809,7 @@
   <section class="block" id="faq" style="padding-top:0">
     <div class="wrap faq-wrap">
       <div class="sec-head reveal">
-        <span class="sec-num">05 — Вопросы</span>
+        <span class="sec-num">06 — Вопросы</span>
         <h2>Частые вопросы</h2>
       </div>
       <div class="faq reveal">
@@ -757,6 +943,283 @@
       navigator.clipboard.writeText('godz_1la').then(function () { done('скопировано'); }, function () { done('ник: godz_1la'); });
     } else { done('ник: godz_1la'); }
   });
+})();
+
+/* ---------- Мини-игра «Перерыв на рейд» ---------- */
+(function () {
+  var stage = document.getElementById('raidStage');
+  if (!stage) return;
+  var tilt = document.getElementById('lockTilt');
+  var lock = document.getElementById('lock');
+  var lcd = document.getElementById('lcd');
+  var cells = lcd.querySelectorAll('.d');
+  var msg = document.getElementById('lockMsg');
+  var hpNum = document.getElementById('hpNum'), hpBar = document.getElementById('hpBar'), hpWrap = document.getElementById('hpWrap');
+  var triesEl = document.getElementById('tries');
+  var result = document.getElementById('raidResult'), resTitle = document.getElementById('resTitle'), resText = document.getElementById('resText');
+  var againBtn = document.getElementById('raidAgain'), statsEl = document.getElementById('raidStats'), soundBtn = document.getElementById('soundBtn');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MAX = 10, DMG = 10;
+  var secret, input, rows, hp, over, busy;
+
+  /* Счёт и настройки: в браузере, а если он не даёт сохранять — до перезагрузки страницы */
+  var mem = {};
+  function store(k, v) {
+    if (v === undefined) {
+      try { var s = localStorage.getItem(k); if (s !== null) return s; } catch (e) {}
+      return mem.hasOwnProperty(k) ? mem[k] : null;
+    }
+    mem[k] = String(v);
+    try { localStorage.setItem(k, String(v)); } catch (e) {}
+    return null;
+  }
+
+  /* Звук: короткие сигналы через Web Audio, без файлов */
+  var sound = store('raidSound') !== 'off', ac = null;
+  function tone(freq, dur, type, vol, slideTo, delay) {
+    if (!sound) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === 'suspended') ac.resume();
+      var t = ac.currentTime + (delay || 0);
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'square';
+      o.frequency.setValueAtTime(freq, t);
+      if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+      g.gain.setValueAtTime(vol || 0.03, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t + dur + 0.02);
+    } catch (e) {}
+  }
+  function renderSound() {
+    soundBtn.textContent = 'Звук: ' + (sound ? 'вкл' : 'выкл');
+    soundBtn.setAttribute('aria-pressed', sound ? 'true' : 'false');
+  }
+  soundBtn.addEventListener('click', function () {
+    sound = !sound; store('raidSound', sound ? 'on' : 'off'); renderSound();
+    tone(1200, 0.05, 'square', 0.03);
+  });
+
+  function plural(n, one, few, many) {
+    var a = n % 10, b = n % 100;
+    if (a === 1 && b !== 11) return one;
+    if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return few;
+    return many;
+  }
+  function newSecret() {
+    var d = '0123456789'.split('');
+    for (var i = d.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = d[i]; d[i] = d[j]; d[j] = t;
+    }
+    return d.slice(0, 4).join('');
+  }
+
+  function setMsg(t) { msg.textContent = t; }
+  function renderInput() {
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].textContent = input.charAt(i);
+      cells[i].classList.toggle('cur', !over && i === input.length);
+    }
+  }
+  function showCode(code) {
+    for (var i = 0; i < cells.length; i++) { cells[i].textContent = code.charAt(i); cells[i].classList.remove('cur'); }
+  }
+  function renderTries(fresh) {
+    var html = '';
+    for (var i = 0; i < MAX; i++) {
+      var r = rows[i];
+      html += '<li class="' + (r ? 'used' : '') + (fresh && i === rows.length - 1 ? ' new' : '') + '">' +
+              '<span class="ti">' + (i < 9 ? '0' : '') + (i + 1) + '</span>';
+      if (r) {
+        html += '<span class="tc">' + r.code + '</span><span class="tp" aria-label="на месте ' + r.b + ', не там ' + r.c + '">';
+        for (var k = 0; k < 4; k++) html += '<i class="peg ' + (k < r.b ? 'bull' : k < r.b + r.c ? 'cow' : 'miss') + '"></i>';
+        html += '</span>';
+      } else {
+        html += '<span class="tc">····</span><span class="tp"></span>';
+      }
+      html += '</li>';
+    }
+    triesEl.innerHTML = html;
+  }
+  function renderHp() {
+    hpNum.textContent = hp;
+    hpBar.style.width = Math.max(hp, 0) + '%';
+    hpWrap.classList.toggle('low', hp <= 30);
+  }
+  function renderStats() {
+    var wins = +store('raidWins') || 0, best = +store('raidBest') || 0;
+    statsEl.textContent = 'Взломано замков: ' + wins + (best ? ' · Рекорд: ' + best + ' ' + plural(best, 'попытка', 'попытки', 'попыток') : '');
+  }
+
+  function start() {
+    secret = newSecret(); input = ''; rows = []; hp = 100; over = false; busy = false;
+    lock.classList.remove('open', 'dead');
+    result.hidden = true;
+    setMsg('ВВЕДИТЕ КОД');
+    renderInput(); renderTries(false); renderHp();
+  }
+
+  function nope(text) {
+    setMsg(text);
+    tone(220, 0.12, 'square', 0.03);
+    if (reduce) return;
+    lcd.classList.remove('nope'); void lcd.offsetWidth; lcd.classList.add('nope');
+  }
+
+  function press(k) {
+    if (over || busy) return;
+    var btn = lock.querySelector('[data-k="' + k + '"]');
+    if (btn) { btn.classList.add('down'); setTimeout(function () { btn.classList.remove('down'); }, 110); }
+    if (/^[0-9]$/.test(k)) {
+      if (input.length >= 4) return nope('НАЖМИТЕ OK');
+      if (input.indexOf(k) >= 0) return nope('ЦИФРЫ НЕ ПОВТОРЯЮТСЯ');
+      input += k;
+      tone(1500, 0.04, 'square', 0.025);
+      setMsg(input.length === 4 ? 'НАЖМИТЕ OK' : 'ВВОД КОДА');
+    } else if (k === 'C') {
+      if (!input) return;
+      input = input.slice(0, -1);
+      tone(900, 0.04, 'square', 0.02);
+      setMsg('ВВОД КОДА');
+    } else if (k === 'OK') {
+      if (input.length < 4) return nope('НУЖНО 4 ЦИФРЫ');
+      return check();
+    }
+    renderInput();
+  }
+
+  function check() {
+    var b = 0, c = 0;
+    for (var i = 0; i < 4; i++) {
+      if (input.charAt(i) === secret.charAt(i)) b++;
+      else if (secret.indexOf(input.charAt(i)) >= 0) c++;
+    }
+    rows.push({ code: input, b: b, c: c });
+    renderTries(true);
+    input = '';
+    if (b === 4) return win();
+    hp -= DMG;
+    shock();
+    renderHp();
+    if (hp <= 0) return lose();
+    var left = MAX - rows.length;
+    setMsg(b + ' НА МЕСТЕ · ' + c + ' НЕ ТАМ · ОСТАЛОСЬ ' + left);
+    renderInput();
+  }
+
+  function shock() {
+    tone(70, 0.35, 'sawtooth', 0.06, 40);
+    tone(160, 0.25, 'square', 0.025, 60, 0.03);
+    if (reduce) return;
+    busy = true;
+    lock.classList.remove('shock'); stage.classList.remove('zap');
+    void lock.offsetWidth;
+    lock.classList.add('shock'); stage.classList.add('zap');
+    setTimeout(function () { busy = false; lock.classList.remove('shock'); stage.classList.remove('zap'); }, 450);
+  }
+
+  function burst() {
+    if (reduce) return;
+    var colors = ['#CE422B', '#E8B931', '#8A8379', '#5BBF7A', '#D9D3C9'];
+    var sr = stage.getBoundingClientRect(), lr = lock.getBoundingClientRect();
+    var cx = lr.left - sr.left + lr.width / 2, cy = lr.top - sr.top + lr.height * 0.25;
+    for (var i = 0; i < 26; i++) {
+      var p = document.createElement('i');
+      var a = Math.random() * Math.PI * 2, dist = 90 + Math.random() * 150;
+      p.className = 'scrap';
+      p.style.left = cx + 'px'; p.style.top = cy + 'px';
+      p.style.background = colors[i % colors.length];
+      p.style.width = p.style.height = (5 + Math.random() * 6).toFixed(1) + 'px';
+      p.style.setProperty('--dx', (Math.cos(a) * dist).toFixed(1) + 'px');
+      p.style.setProperty('--dy', (Math.sin(a) * dist - 50).toFixed(1) + 'px');
+      p.style.setProperty('--r', (Math.random() * 720 - 360).toFixed(0) + 'deg');
+      stage.appendChild(p);
+      setTimeout((function (el) { return function () { el.remove(); }; })(p), 1200);
+    }
+  }
+
+  function showResult(title, text, again) {
+    resTitle.textContent = title;
+    resText.innerHTML = text;
+    againBtn.textContent = again;
+    result.hidden = false;
+    /* На телефоне итог ниже замка — плавно докручиваем до него */
+    if (window.innerWidth < 900) {
+      setTimeout(function () {
+        try { result.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); } catch (e) { result.scrollIntoView(); }
+      }, reduce ? 0 : 900);
+    }
+  }
+
+  function win() {
+    over = true;
+    lock.classList.add('open');
+    showCode(secret);
+    setMsg('ДОСТУП ОТКРЫТ');
+    tone(880, 0.16, 'triangle', 0.05);
+    tone(1175, 0.16, 'triangle', 0.05, null, 0.11);
+    tone(1568, 0.3, 'triangle', 0.05, null, 0.22);
+    burst();
+    var n = rows.length, wins = (+store('raidWins') || 0) + 1, best = +store('raidBest') || 0;
+    var record = !best || n < best;
+    store('raidWins', wins);
+    if (record) store('raidBest', n);
+    showResult(
+      'Замок взломан за ' + n + ' ' + plural(n, 'попытку', 'попытки', 'попыток') + (record && best ? ' — новый рекорд!' : '.'),
+      'Права у @everyone на вашем сервере могут оказаться дырой пострашнее. <span class="kbd">/анализ</span> найдёт её за 10 секунд.',
+      'Ещё рейд'
+    );
+    renderStats();
+  }
+
+  function lose() {
+    over = true;
+    lock.classList.add('dead');
+    showCode(secret);
+    setMsg('ВЫ ПОГИБЛИ');
+    tone(300, 0.6, 'sawtooth', 0.05, 60, 0.15);
+    showResult(
+      'Вас убило током. Код был ' + secret + '.',
+      'Бывает. Свой сервер проверить проще: <span class="kbd">/анализ</span> покажет слабые места за 10 секунд.',
+      'Ещё раз'
+    );
+  }
+
+  lock.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-k]');
+    if (b) press(b.getAttribute('data-k'));
+  });
+  againBtn.addEventListener('click', function () { start(); tone(1200, 0.05, 'square', 0.03); });
+
+  /* Клавиатура работает, когда замок на экране */
+  var inView = !('IntersectionObserver' in window);
+  if (!inView) new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.4 }).observe(stage);
+  document.addEventListener('keydown', function (e) {
+    if (!inView || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key, ae = document.activeElement;
+    if (/^[0-9]$/.test(k)) { press(k); }
+    else if (k === 'Backspace') { e.preventDefault(); press('C'); }
+    else if (k === 'Enter') {
+      if (ae && ae !== document.body && /^(BUTTON|A)$/.test(ae.tagName)) return;
+      e.preventDefault();
+      if (over) start(); else press('OK');
+    }
+  });
+
+  /* Замок слегка наклоняется за мышкой */
+  if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    stage.addEventListener('pointermove', function (e) {
+      var r = stage.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      tilt.style.transform = 'rotateY(' + (x * 16).toFixed(2) + 'deg) rotateX(' + (-y * 16).toFixed(2) + 'deg)';
+      lock.style.setProperty('--gx', ((x + 0.5) * 100).toFixed(0) + '%');
+      lock.style.setProperty('--gy', ((y + 0.5) * 100).toFixed(0) + '%');
+    });
+    stage.addEventListener('pointerleave', function () { tilt.style.transform = ''; });
+  }
+
+  renderSound(); renderStats(); start();
 })();
 </script>
 </body>
