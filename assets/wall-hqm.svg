@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">
+  <!-- Тяжёлая стальная стена: сине-серая сталь, ржавая рама сверху, полосы-усилители
+       с заклёпками, медная полоса снизу, потёки ржавчины. Плитка повторяется без швов. -->
+  <defs>
+    <!-- Сталь -->
+    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#454C54"/>
+      <stop offset=".5" stop-color="#3A4048"/>
+      <stop offset="1" stop-color="#30353C"/>
+    </linearGradient>
+    <!-- Края листа темнее: объём -->
+    <linearGradient id="edgeX" x1="0" x2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".45"/>
+      <stop offset=".05" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".95" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".35"/>
+    </linearGradient>
+    <!-- Верхняя рама: тёмное ржавое железо -->
+    <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5A4434"/>
+      <stop offset=".5" stop-color="#3E3029"/>
+      <stop offset="1" stop-color="#2A221E"/>
+    </linearGradient>
+    <!-- Нижняя полоса: рыжая медь -->
+    <linearGradient id="copper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9A5A36"/>
+      <stop offset=".45" stop-color="#7A4429"/>
+      <stop offset="1" stop-color="#4A2818"/>
+    </linearGradient>
+    <!-- Полоса-усилитель -->
+    <linearGradient id="strap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5E666F"/>
+      <stop offset=".5" stop-color="#474E56"/>
+      <stop offset="1" stop-color="#33383E"/>
+    </linearGradient>
+    <linearGradient id="bracket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#535A62"/>
+      <stop offset="1" stop-color="#2E3338"/>
+    </linearGradient>
+    <linearGradient id="shadowDown" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="rivet" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#9AA1A9"/>
+      <stop offset=".45" stop-color="#555C64"/>
+      <stop offset="1" stop-color="#1D2125"/>
+    </radialGradient>
+    <radialGradient id="rivetRust" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#A47458"/>
+      <stop offset=".45" stop-color="#5E3E2C"/>
+      <stop offset="1" stop-color="#22160F"/>
+    </radialGradient>
+
+    <!-- Грязь и пятна на стали -->
+    <filter id="grime" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="4" seed="31" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .07  0 0 0 0 .08  0 0 0 0 .09  2.4 0 0 0 -.95"/>
+    </filter>
+    <!-- Светлые потёртости -->
+    <filter id="wear" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="12" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .62  0 0 0 0 .66  0 0 0 0 .7  2.6 0 0 0 -1.6"/>
+    </filter>
+    <!-- Ржавые пятна -->
+    <filter id="rust" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".028" numOctaves="4" seed="5" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .24  0 0 0 0 .1  3.4 0 0 0 -1.9"/>
+    </filter>
+    <!-- Ржавые потёки вниз -->
+    <filter id="streaks" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".12 .007" numOctaves="3" seed="27" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .48  0 0 0 0 .23  0 0 0 0 .1  3 0 0 0 -1.45"/>
+    </filter>
+    <!-- Мелкая фактура металла -->
+    <filter id="grain" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="3" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0"/>
+    </filter>
+
+    <linearGradient id="streakFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="m1" maskUnits="userSpaceOnUse" x="0" y="28" width="360" height="80">
+      <rect x="0" y="28" width="360" height="80" fill="url(#streakFade)"/>
+    </mask>
+    <mask id="m2" maskUnits="userSpaceOnUse" x="0" y="132" width="360" height="90">
+      <rect x="0" y="132" width="360" height="90" fill="url(#streakFade)"/>
+    </mask>
+    <mask id="m3" maskUnits="userSpaceOnUse" x="0" y="246" width="360" height="86">
+      <rect x="0" y="246" width="360" height="86" fill="url(#streakFade)"/>
+    </mask>
+
+    <!-- Заклёпки -->
+    <g id="r">
+      <circle cx=".9" cy="1.1" r="3.6" fill="#000" opacity=".6"/>
+      <circle r="3.2" fill="url(#rivet)"/>
+    </g>
+    <g id="rr">
+      <circle cx=".9" cy="1.1" r="3.6" fill="#000" opacity=".6"/>
+      <circle r="3.2" fill="url(#rivetRust)"/>
+    </g>
+    <!-- Крупный болт -->
+    <g id="bolt">
+      <circle cx="1.2" cy="1.5" r="5.6" fill="#000" opacity=".55"/>
+      <circle r="5" fill="url(#rivet)"/>
+      <circle r="5" fill="none" stroke="#14171A" stroke-width=".8"/>
+    </g>
+    <!-- Ряд заклёпок вдоль полосы: шаг 24 -->
+    <g id="row">
+      <use href="#r" x="12"/><use href="#r" x="36"/><use href="#r" x="60"/><use href="#r" x="84"/>
+      <use href="#r" x="108"/><use href="#rr" x="132"/><use href="#r" x="156"/><use href="#r" x="180"/>
+      <use href="#r" x="204"/><use href="#r" x="228"/><use href="#rr" x="252"/><use href="#r" x="276"/>
+      <use href="#r" x="300"/><use href="#r" x="324"/><use href="#r" x="348"/>
+    </g>
+    <!-- Полоса-усилитель высотой 14 -->
+    <g id="band">
+      <rect x="0" y="0" width="360" height="14" fill="url(#strap)"/>
+      <rect x="0" y="0" width="360" height="1" fill="#fff" opacity=".18"/>
+      <rect x="0" y="13" width="360" height="1" fill="#000" opacity=".6"/>
+      <rect x="0" y="14" width="360" height="8" fill="url(#shadowDown)"/>
+      <use href="#row" y="7"/>
+    </g>
+    <!-- Крепление на конце полосы -->
+    <g id="clamp">
+      <rect x="1.5" y="2" width="44" height="30" rx="2" fill="#000" opacity=".5"/>
+      <rect width="44" height="30" rx="2" fill="url(#bracket)"/>
+      <path d="M1 29 V1 H43" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="1.2"/>
+      <path d="M1 29 H43 V1" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="1.2"/>
+      <rect x="8" y="12" width="28" height="6" rx="1" fill="#1E2226"/>
+      <use href="#bolt" x="8" y="7"/>
+      <use href="#bolt" x="36" y="23"/>
+    </g>
+  </defs>
+
+  <!-- Стальной лист -->
+  <rect width="360" height="360" fill="url(#steel)"/>
+  <rect width="360" height="360" filter="url(#grime)"/>
+  <rect width="360" height="360" filter="url(#wear)" opacity=".18"/>
+  <rect width="360" height="360" filter="url(#rust)" opacity=".3"/>
+  <rect width="360" height="360" fill="url(#edgeX)"/>
+  <!-- Шов между листами -->
+  <rect x="0" y="0" width="2" height="360" fill="#121518"/>
+  <rect x="2" y="0" width="1" height="360" fill="#fff" opacity=".07"/>
+
+  <!-- Потёки ржавчины под рамой и под полосами -->
+  <rect x="0" y="28" width="360" height="80" filter="url(#streaks)" mask="url(#m1)" opacity=".6"/>
+  <rect x="0" y="132" width="360" height="90" filter="url(#streaks)" mask="url(#m2)" opacity=".45"/>
+  <rect x="0" y="246" width="360" height="86" filter="url(#streaks)" mask="url(#m3)" opacity=".45"/>
+
+  <!-- Несколько одиночных болтов на листе -->
+  <use href="#bolt" x="96" y="72"/>
+  <use href="#bolt" x="268" y="72"/>
+  <use href="#bolt" x="182" y="188"/>
+  <use href="#bolt" x="60" y="298"/>
+  <use href="#bolt" x="300" y="298"/>
+
+  <!-- Полосы-усилители с креплениями по краям -->
+  <use href="#band" y="118"/>
+  <use href="#clamp" x="10" y="110"/>
+  <use href="#clamp" x="306" y="110"/>
+  <use href="#band" y="232"/>
+  <use href="#clamp" x="10" y="224"/>
+  <use href="#clamp" x="306" y="224"/>
+
+  <!-- Верхняя рама: тёмное ржавое железо с зубцами-креплениями -->
+  <rect x="0" y="0" width="360" height="22" fill="url(#frame)"/>
+  <rect x="0" y="0" width="360" height="22" filter="url(#rust)" opacity=".9"/>
+  <rect x="0" y="0" width="360" height="1" fill="#fff" opacity=".12"/>
+  <rect x="0" y="21" width="360" height="1" fill="#000" opacity=".7"/>
+  <g>
+    <rect x="34" y="22" width="16" height="9" fill="#3A2E27"/>
+    <rect x="124" y="22" width="16" height="9" fill="#3A2E27"/>
+    <rect x="214" y="22" width="16" height="9" fill="#3A2E27"/>
+    <rect x="304" y="22" width="16" height="9" fill="#3A2E27"/>
+  </g>
+  <rect x="0" y="22" width="360" height="12" fill="url(#shadowDown)"/>
+  <use href="#row" y="11"/>
+
+  <!-- Нижняя полоса: рыжая медь -->
+  <rect x="0" y="330" width="360" height="8" fill="url(#shadowDown)" transform="rotate(180 180 334)"/>
+  <rect x="0" y="336" width="360" height="24" fill="url(#copper)"/>
+  <rect x="0" y="336" width="360" height="24" filter="url(#rust)" opacity=".6"/>
+  <rect x="0" y="336" width="360" height="1" fill="#E0A27A" opacity=".45"/>
+  <rect x="0" y="359" width="360" height="1" fill="#000" opacity=".7"/>
+
+  <!-- Мелкая фактура поверх всего -->
+  <rect width="360" height="360" filter="url(#grain)"/>
+</svg>

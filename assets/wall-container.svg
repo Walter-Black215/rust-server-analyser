@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="720" viewBox="0 0 320 720">
+  <!-- Стена из гофрированного металла, как у морского контейнера. Молочный пастельный цвет.
+       Плитка повторяется по горизонтали и вертикали без швов. -->
+  <defs>
+    <!-- Гофра: выступающая грань, скосы и утопленная грань -->
+    <linearGradient id="out" x1="0" x2="1">
+      <stop offset="0" stop-color="#F3EEE6"/>
+      <stop offset="1" stop-color="#ECE6DC"/>
+    </linearGradient>
+    <linearGradient id="slantIn" x1="0" x2="1">
+      <stop offset="0" stop-color="#CFC4B3"/>
+      <stop offset="1" stop-color="#D9CFC0"/>
+    </linearGradient>
+    <linearGradient id="in" x1="0" x2="1">
+      <stop offset="0" stop-color="#DDD5C7"/>
+      <stop offset="1" stop-color="#E9E3D8"/>
+    </linearGradient>
+    <linearGradient id="slantOut" x1="0" x2="1">
+      <stop offset="0" stop-color="#F0EBE2"/>
+      <stop offset="1" stop-color="#F8F5F0"/>
+    </linearGradient>
+
+    <!-- Верхняя балка-рама -->
+    <linearGradient id="rail" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6F2EC"/>
+      <stop offset=".45" stop-color="#EDE7DD"/>
+      <stop offset="1" stop-color="#DDD5C8"/>
+    </linearGradient>
+    <linearGradient id="railShadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4A3524" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#5A4632" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Потёки грязи под балкой -->
+    <filter id="grime" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07 0.005" numOctaves="3" seed="5" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .46  0 0 0 0 .38  0 0 0 0 .29  2.4 0 0 0 -1.05"/>
+    </filter>
+    <linearGradient id="grimeFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset=".35" stop-color="#fff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="grimeMask" maskUnits="userSpaceOnUse" x="0" y="40" width="320" height="320">
+      <rect x="0" y="40" width="320" height="320" fill="url(#grimeFade)"/>
+    </mask>
+
+    <!-- Мелкая фактура краски -->
+    <filter id="paint" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .35  0 0 0 0 .28  0 0 0 0 .2  0 0 0 .14 0"/>
+    </filter>
+    <!-- Крупные пятна выцветания краски -->
+    <filter id="fade" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .004" numOctaves="3" seed="9" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 .99  0 0 0 0 .96  1.6 0 0 0 -.72"/>
+    </filter>
+
+    <!-- Ржавчина: крупные пятна, мелкие крапинки и рыжие потёки -->
+    <filter id="rustSpots" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".016" numOctaves="4" seed="14" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .58  0 0 0 0 .27  0 0 0 0 .11  3.6 0 0 0 -1.85"/>
+    </filter>
+    <filter id="rustFine" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="2" seed="6" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .22  0 0 0 0 .09  6 0 0 0 -3.85"/>
+    </filter>
+    <filter id="rustStreaks" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency=".11 .006" numOctaves="3" seed="19" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .6  0 0 0 0 .29  0 0 0 0 .12  3 0 0 0 -1.4"/>
+    </filter>
+    <linearGradient id="streakFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="streakMask" maskUnits="userSpaceOnUse" x="0" y="40" width="320" height="260">
+      <rect x="0" y="40" width="320" height="260" fill="url(#streakFade)"/>
+    </mask>
+    <!-- Низ секции: ржавчина и грязь копятся у нижнего края -->
+    <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="bottomMask" maskUnits="userSpaceOnUse" x="0" y="540" width="320" height="180">
+      <rect x="0" y="540" width="320" height="180" fill="url(#bottomFade)"/>
+    </mask>
+    <linearGradient id="bottomShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4A3524" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4A3524" stop-opacity=".2"/>
+    </linearGradient>
+
+    <!-- Один период гофры шириной 160 -->
+    <g id="corr">
+      <rect x="0" y="0" width="66" height="720" fill="url(#out)"/>
+      <rect x="66" y="0" width="14" height="720" fill="url(#slantIn)"/>
+      <rect x="80" y="0" width="66" height="720" fill="url(#in)"/>
+      <rect x="146" y="0" width="14" height="720" fill="url(#slantOut)"/>
+      <rect x="0" y="0" width="1" height="720" fill="#FBF9F5"/>
+      <rect x="65" y="0" width="1" height="720" fill="#D6CEC0" opacity=".7"/>
+      <rect x="79" y="0" width="1" height="720" fill="#D3CABC" opacity=".6"/>
+      <rect x="159" y="0" width="1" height="720" fill="#FCFAF7"/>
+    </g>
+  </defs>
+
+  <use href="#corr"/>
+  <use href="#corr" x="160"/>
+
+  <!-- Выцветание и фактура краски -->
+  <rect width="320" height="720" filter="url(#fade)" opacity=".5"/>
+  <rect width="320" height="720" filter="url(#paint)"/>
+
+  <!-- Потёки под балкой -->
+  <rect x="0" y="40" width="320" height="320" filter="url(#grime)" mask="url(#grimeMask)" opacity=".55"/>
+
+  <!-- Ржавчина по всей стене -->
+  <rect width="320" height="720" filter="url(#rustSpots)" opacity=".38"/>
+  <rect width="320" height="720" filter="url(#rustFine)" opacity=".35"/>
+  <!-- Рыжие потёки из-под балки -->
+  <rect x="0" y="40" width="320" height="260" filter="url(#rustStreaks)" mask="url(#streakMask)" opacity=".7"/>
+  <!-- Ржавчина и тень внизу секции -->
+  <rect x="0" y="540" width="320" height="180" filter="url(#rustSpots)" mask="url(#bottomMask)"/>
+  <rect x="0" y="540" width="320" height="180" filter="url(#rustFine)" mask="url(#bottomMask)"/>
+  <rect x="0" y="600" width="320" height="120" fill="url(#bottomShade)"/>
+
+  <!-- Тень от балки -->
+  <rect x="0" y="40" width="320" height="34" fill="url(#railShadow)"/>
+
+  <!-- Балка-рама -->
+  <rect x="0" y="0" width="320" height="40" fill="url(#rail)"/>
+  <rect x="0" y="1" width="320" height="1" fill="#FFFFFF" opacity=".75"/>
+  <rect x="0" y="21" width="320" height="1" fill="#C9BFAF" opacity=".35"/>
+  <rect x="0" y="22" width="320" height="1" fill="#FFFFFF" opacity=".45"/>
+  <rect x="0" y="38" width="320" height="2" fill="#B9AD9A"/>
+  <!-- Ржавчина на балке -->
+  <rect x="0" y="0" width="320" height="40" filter="url(#rustFine)" opacity=".7"/>
+  <rect x="0" y="0" width="320" height="40" filter="url(#rustSpots)" opacity=".5"/>
+
+  <!-- Редкие царапины -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M38 212 l26 -9" stroke="#FFFFFF" stroke-width="1" opacity=".7"/>
+    <path d="M39 213 l25 -9" stroke="#B9AE9C" stroke-width=".6" opacity=".35"/>
+    <path d="M214 468 l18 6 l9 -2" stroke="#FFFFFF" stroke-width="1" opacity=".6"/>
+    <path d="M100 590 l-14 22" stroke="#B9AE9C" stroke-width=".7" opacity=".3"/>
+    <path d="M262 150 l22 -3" stroke="#FFFFFF" stroke-width=".9" opacity=".55"/>
+  </g>
+</svg>

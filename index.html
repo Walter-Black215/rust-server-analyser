@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rust server analyser — разбор сервера Rust-клана за 10 секунд</title>
 <meta name="description" content="Бесплатный Discord-бот для серверов Rust-кланов. Команда /анализ даёт оценку сервера из 100, статистику роста и онлайна, слабые места и советы по продвижению.">
-<meta name="theme-color" content="#ECE3D5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ECE6DC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2A2F35" media="(prefers-color-scheme: dark)">
 
 <!-- SITE_URL: адрес сайта на GitHub Pages. Поменять, если репозиторий назван иначе. -->
 <link rel="canonical" href="https://walter-black215.github.io/rust-server-analyser/">
@@ -52,7 +52,7 @@
 
 <style>
   :root {
-    --bg: #ECE3D5;
+    --bg: #ECE6DC;
     --surface: #FBF8F3;
     --ink: #16130F;
     --ink-2: #574F45;
@@ -60,14 +60,12 @@
     --line: #DACFBE;
     --line-strong: #C6B9A5;
 
-    /* Фон в стиле Rust: пятна ржавчины, листовой металл, зерно */
-    --patina: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='1200'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0032' numOctaves='5' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .68 0 0 0 0 .29 0 0 0 0 .12 3.2 0 0 0 -1.45'/%3E%3C/filter%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .17 0 0 0 0 .07 6 0 0 0 -3.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23b)' opacity='.4'/%3E%3C/svg%3E");
-    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .12 0 0 0 0 .06 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --patina-op: .42;
-    --sheet-dark: rgba(80, 45, 20, .045);
-    --sheet-light: rgba(255, 250, 240, .35);
-    --glow: rgba(206, 66, 43, .10);
-    --vignette: rgba(92, 48, 22, .16);
+    /* Задний фон: светлая тема — молочная стена-контейнер, тёмная — бронированная стена */
+    --wall: url("assets/wall-container.svg");
+    --wall-size: 320px 720px;
+    --glow: rgba(206, 66, 43, .05);
+    --vignette: rgba(90, 70, 50, .12);
+    --scrim: transparent;
     --accent: #CE422B;
     --accent-hover: #B8371F;
     --accent-text: #B4361F;
@@ -92,42 +90,42 @@
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #121110;
+      --bg: #2A2F35;
       --surface: #1B1A18;
       --ink: #EDE9E3;
       --ink-2: #A39C92;
-      --ink-3: #7A746B;
+      --ink-3: #8F887E;
       --line: #2C2A27;
       --line-strong: #3D3A36;
       --accent: #D9492F;
       --accent-hover: #E85E43;
       --accent-text: #F07A5F;
       --accent-soft: #2E1C17;
-      --patina-op: .30;
-      --sheet-dark: rgba(0, 0, 0, .25);
-      --sheet-light: rgba(255, 200, 160, .025);
-      --glow: rgba(217, 73, 47, .13);
-      --vignette: rgba(0, 0, 0, .45);
+      --wall: url("assets/wall-hqm.svg");
+      --wall-size: 360px 360px;
+      --glow: rgba(217, 73, 47, .07);
+      --vignette: rgba(0, 0, 0, .5);
+      --scrim: rgba(12, 14, 16, .42);
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #121110;
+    --bg: #2A2F35;
     --surface: #1B1A18;
     --ink: #EDE9E3;
     --ink-2: #A39C92;
-    --ink-3: #7A746B;
+    --ink-3: #8F887E;
     --line: #2C2A27;
     --line-strong: #3D3A36;
     --accent: #D9492F;
     --accent-hover: #E85E43;
     --accent-text: #F07A5F;
     --accent-soft: #2E1C17;
-    --patina-op: .30;
-    --sheet-dark: rgba(0, 0, 0, .25);
-    --sheet-light: rgba(255, 200, 160, .025);
-    --glow: rgba(217, 73, 47, .13);
-    --vignette: rgba(0, 0, 0, .45);
+    --wall: url("assets/wall-hqm.svg");
+    --wall-size: 360px 360px;
+    --glow: rgba(217, 73, 47, .07);
+    --vignette: rgba(0, 0, 0, .5);
+    --scrim: rgba(12, 14, 16, .42);
     color-scheme: dark;
   }
 
@@ -135,7 +133,8 @@
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 80px; }
   body {
     margin: 0;
-    background: var(--bg);
+    /* Стена прокручивается вместе со страницей, как настоящая стена */
+    background: var(--wall) 0 0 / var(--wall-size) repeat, var(--bg);
     color: var(--ink);
     font-family: var(--font);
     font-size: 17px;
@@ -144,20 +143,15 @@
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
-  /* Задний фон: стоит на месте, страница прокручивается поверх */
-  body::before, body::after {
-    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  }
+  /* Мягкое затемнение по краям экрана и лёгкий тёплый отсвет поверх стены.
+     В тёмной теме стена ещё и чуть притемнена (--scrim), чтобы текст читался. */
   body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
+      linear-gradient(var(--scrim), var(--scrim)),
       radial-gradient(ellipse 70% 55% at 85% 0%, var(--glow), transparent 70%),
       radial-gradient(ellipse 60% 50% at 0% 100%, var(--glow), transparent 70%),
-      radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, var(--vignette) 100%),
-      repeating-linear-gradient(90deg, transparent 0 58px, var(--sheet-dark) 58px 60px, var(--sheet-light) 60px 62px, transparent 62px 120px);
-  }
-  body::after {
-    background: var(--patina) 0 0 / 1200px 1200px, var(--grain) 0 0 / 220px 220px;
-    opacity: var(--patina-op);
+      radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, var(--vignette) 100%);
   }
   img, svg { display: block; max-width: 100%; }
   a { color: inherit; }
